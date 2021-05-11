@@ -120,4 +120,12 @@ public class Board {
     public void setReproduction(int value) {
         reproduction = value;
     }
+
+    /**
+     * Get the game board
+     * @return the game board
+     */
+    public boolean[][] getBoard() {
+        return board;
+    }
 }
