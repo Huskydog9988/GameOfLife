@@ -11,8 +11,7 @@ public class GUI extends JFrame {
         // disable resize
         this.setResizable(false);
 
-        // temp demo array
-        int[][] board = new int[10][10];
+        Board gameboard = new Board(10, 10);
 
         // new grid
         JPanel grid = new JPanel();
@@ -20,8 +19,8 @@ public class GUI extends JFrame {
         grid.setLayout(new GridLayout(25, 25));
 
         // loop through board
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
+        for (int i = 0; i < gameboard.getBoard().length; i++) {
+            for (int j = 0; j < gameboard.getBoard()[i].length; j++) {
                 // add board item to grid
                 grid.add(new JLabel("" + i + " " + j));
             }
