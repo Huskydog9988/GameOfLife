@@ -2,16 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GUI extends JFrame {
+    private Board gameboard = new Board(10, 10);
+
     GUI() {
-        // set the title of the
+        // set the title
         super("Conway's Game of Life");
 
         // set bounds
         this.setBounds(100,100,600,400);
         // disable resize
         this.setResizable(false);
-
-        Board gameboard = new Board(10, 10);
 
         // new grid
         JPanel grid = new JPanel();
