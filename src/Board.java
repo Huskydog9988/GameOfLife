@@ -9,13 +9,9 @@ public class Board {
      */
     private int underpopulation = 2;
     /**
-     * Any live cell with two or three live neighbours lives on to the next generation.
-     */
-    private int[] livesOn = {2, 3};
-    /**
      * Any live cell with more than three live neighbours dies, as if by overpopulation.
      */
-    private int overpopulation = 4;
+    private int overpopulation = 3;
     /**
      * Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
      */
@@ -51,11 +47,6 @@ public class Board {
     }
 
     /**
-     * Steps through to the next cycle
-     */
-    public void nextCycle() {}
-
-    /**
      * get underpopulation value
      * @return underpopulation
      */
@@ -69,24 +60,6 @@ public class Board {
      */
     public void setUnderpopulation(int value) {
         underpopulation = value;
-    }
-
-    /**
-     * get livesOn value
-     * @return livesOn
-     */
-    public int[] getLivesOn() {
-        return livesOn;
-    }
-
-    /**
-     * sets livesOn value
-     * @param lower the lower bounds to live on
-     * @param upper the upper (inclusive) bound to live on
-     */
-    public void setLivesOn(int lower, int upper) {
-        livesOn[0] = lower;
-        livesOn[1] = upper;
     }
 
     /**
@@ -127,5 +100,165 @@ public class Board {
      */
     public boolean[][] getBoard() {
         return board;
+    }
+    
+    /**
+     * Steps through to the next cycle
+     */
+    public void nextCycle() 
+    {
+    	boolean[][] newBoard = new boolean[board.length][board[0].length];
+    	for(int i = 0; i < board.length; i++)
+    	{
+    		for(int j = 0; j < board[0].length; j++)
+    		{
+    			if(!board[i][j])
+    			{
+    				if(numAround(i, j) == reproduction)
+    					newBoard[i][j] = !board[i][j];
+    			}
+    			else
+    			{
+    				if(numAround(i, j) < underpopulation)
+    					newBoard[i][j] = !board[i][j];
+    				else if(numAround(i, j) > overpopulation)
+    					newBoard[i][j] = !board[i][j];
+    				else
+    					newBoard[i][j] = board[i][j];
+    			}
+    		}
+    	}
+    }
+    
+    /**
+     * count live cells in proximity
+     * @param row
+     * @param col
+     * @return number of live cells around the current cell
+     */
+    public int numAround(int row, int col)
+    {
+    	int count = 0;
+    	if(row==0)
+    	{
+    		if(col == 0)
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    		}
+    		else if(col == board[0].length-1)
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    		else
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    			if(board[row+1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    	}
+    	else if(row == board.length-1)
+    	{
+    		if(col == 0)
+    		{
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    		}
+    		else if(col == board[0].length-1)
+    		{
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    		else
+    		{
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    			if(board[row-1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    	}
+    	else
+    	{
+    		if(col == 0)
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    		}
+    		else if(col == board[0].length-1)
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    		else
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    			if(board[row+1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col+1])
+    				count++;
+    			if(board[row-1][col-1])
+    				count++;
+    		}
+    	}
+    	return count;
     }
 }
