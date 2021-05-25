@@ -12,9 +12,8 @@ public class GUI extends JFrame {
 
         // new grid
         Grid grid = new Grid();
-
         // add grid
-        this.add(grid);
+        add(grid);
 //        this.pack();
 
         // show window
