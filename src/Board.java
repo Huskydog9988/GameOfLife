@@ -112,6 +112,7 @@ public class Board {
     	{
     		for(int j = 0; j < board[0].length; j++)
     		{
+//    			if dead
     			if(!board[i][j])
     			{
     				if(numAround(i, j) == reproduction)
