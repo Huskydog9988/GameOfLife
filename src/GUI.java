@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class GUI extends JFrame {
     GUI() {
@@ -9,7 +8,7 @@ public class GUI extends JFrame {
         // set bounds
         this.setBounds(100,100,800,600);
         // disable resize
-        this.setResizable(false);
+        this.setResizable(true);
 
         // new grid
         Grid grid = new Grid();
