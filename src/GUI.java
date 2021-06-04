@@ -63,7 +63,7 @@ public class GUI extends JFrame {
         JLabel underPopulation = new JLabel("Underpopulation Value: ");
         underPopulation.setBounds(10, 0, 150, 30);
         JLabel overPopulation = new JLabel("Overpopulation Value: ");
-        overPopulation.setBounds(300, 0, 150, 30);
+        overPopulation.setBounds(10, 20, 150, 30);
         JPanel settings = new JPanel();
         JPanel settingsLD = new JPanel();
         JPanel settingsPS = new JPanel();
@@ -78,7 +78,7 @@ public class GUI extends JFrame {
         underPop.setBounds(160, 7, 50, 20);
         underPop.setText("" + grid.getUnderpopulation());
         JTextField overPop = new JTextField(1);
-        overPop.setBounds(450, 7, 50, 20);
+        overPop.setBounds(160, 25, 50, 20);
         overPop.setText("" + grid.getOverpopulation());
         JButton setSettings = new JButton("Set Settings");
 //        JLabel stateManagement = new JLabel("Why oh why god of the heavenly above does this wretched program not have state management??");
