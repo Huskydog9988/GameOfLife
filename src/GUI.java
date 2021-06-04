@@ -11,6 +11,8 @@ public class GUI extends JFrame {
         // set the title
         super("Conway's Game of Life");
 
+        Logger.info("Started Game");
+
         // set bounds
         setBounds(100,100,1200,600);
         // disable resize

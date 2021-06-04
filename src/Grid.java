@@ -22,33 +22,7 @@ public class Grid extends JPanel {
 		// make boarder white
 		setBackground(Color.WHITE);
 
-		for (int i = 0; i < rowCount * rowCount; i++) {
-			JPanel panel = new JPanel();
-
-			int row = i / rowCount;
-			int col = i % rowCount;
-
-			// set name for later parsing
-			String name = String.format("[%d,%d]", row, col);
-			panel.setName(name);
-
-			// if (i == 0) {
-			// originalColor = panel.getBackground();
-			// }
-
-			// get whether cell is alive or dead
-			Boolean alive = getCellAt(row, col);
-
-			if (alive) {
-				panel.setBackground(Color.WHITE);
-			} else {
-				panel.setBackground(Color.BLACK);
-			}
-
-			// set size
-			panel.setPreferredSize(size);
-			add(panel);
-		}
+		paintBoard();
 
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -62,6 +36,7 @@ public class Grid extends JPanel {
 				}
 
 				String name = panel.getName();
+				Logger.debug("Got cell " + name);
 				int row = Integer.parseInt(String.valueOf(name.charAt(1)));
 				int col = Integer.parseInt(String.valueOf(name.charAt(3)));
 
@@ -83,11 +58,55 @@ public class Grid extends JPanel {
 
 	}
 
+	public String formatCord(int row, int col) {
+		return String.format("[%d,%d]", row, col);
+	}
+
+	private void repaintBoard() {
+		Logger.info("Repainting the board");
+		removeAll();
+
+		paintBoard();
+	}
+
+	private void paintBoard() {
+		Logger.info("Painting the board");
+
+		for (int i = 0; i < rowCount * rowCount; i++) {
+			JPanel panel = new JPanel();
+
+			int row = i / rowCount;
+			int col = i % rowCount;
+
+			// set name for later parsing
+			String name = formatCord(row, col);
+			panel.setName(name);
+
+			// if (i == 0) {
+			// originalColor = panel.getBackground();
+			// }
+
+			// get whether cell is alive or dead
+			Boolean alive = getCellAt(row, col);
+
+			if (alive) {
+				panel.setBackground(Color.WHITE);
+			} else {
+				panel.setBackground(Color.BLACK);
+			}
+
+			// set size
+			panel.setPreferredSize(size);
+			add(panel);
+		}
+	}
+
 	public boolean getCellAt(int row, int col) {
 		return board[row][col];
 	}
 
 	public void setCellAt(int row, int col) {
+		Logger.debug("Set cell " + formatCord(row, col));
 		board[row][col] = !board[row][col];
 	}
 
@@ -138,6 +157,8 @@ public class Grid extends JPanel {
 			}
 		}
 		board = newBoard;
+
+		repaintBoard();
 	}
 
 	public int numAround(int row, int col) {
