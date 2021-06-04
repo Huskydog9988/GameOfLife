@@ -13,6 +13,7 @@ public class Grid extends JPanel {
 	private int underpopulation = 2;
 	private int overpopulation = 3;
 	private int reproduction = 3;
+	private int cycles = 0;
 
 	// TODO: need to handle board being changed
 
@@ -141,6 +142,8 @@ public class Grid extends JPanel {
 		return board;
 	}
 
+	public int getCycles() { return cycles; }
+
 	public void nextCycle() {
 		Logger.info("Next cycle");
 
@@ -164,6 +167,7 @@ public class Grid extends JPanel {
 		board = newBoard;
 
 		repaintBoard();
+		cycles++;
 	}
 
 	public int numAround(int row, int col) {

@@ -6,12 +6,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.TimerTask;
+import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class GUI extends JFrame {
 
     private Grid grid = new Grid();
     private JPanel config = new JPanel();
-    private Timer timer;
+    private JLabel counter = new JLabel("Cycles: 0");
 
 //    why does java lack state management??
 //    this project would have taken a quarter of the time, and way less stress
@@ -72,6 +77,7 @@ public class GUI extends JFrame {
 
         intro.setText("");
         sliderText.setLabelFor(speed);
+        config.add(counter);
         config.add(intro);
         config.add(settings);
         config.add(stateManagement);
@@ -92,6 +98,10 @@ public class GUI extends JFrame {
 
         playStop.addActionListener(new ActionListener() {
             private int clicked = 0;
+//            private Timer timer = new Timer("Game of life clock", true);
+            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+            ScheduledFuture<?> future;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(clicked == 0)
@@ -101,7 +111,16 @@ public class GUI extends JFrame {
                     step.setEnabled(false);
                     clicked++;
 
-                    timer = new Timer();
+//                    TimerTask cycleTask = new TimerTask() {
+//                        public void run() {
+//                            nextCycle();
+//                        }
+//                    };
+
+//                    timer.scheduleAtFixedRate(cycleTask, 1, 100);
+
+                    future = scheduledExecutorService.scheduleAtFixedRate(() -> nextCycle(), 1, 100, TimeUnit.MILLISECONDS);
+
                 }
                 else if(clicked == 1)
                 {
@@ -109,6 +128,9 @@ public class GUI extends JFrame {
                     playStop.setText("Play");
                     step.setEnabled(true);
                     clicked--;
+
+//                    if (timer != null) timer.cancel();
+                    if (future != null) future.cancel(false);
                 }
 
             }
@@ -123,12 +145,18 @@ public class GUI extends JFrame {
 //				getGrid().;
 //				GUI.this.getBoard()
 
-                grid.nextCycle();
+                nextCycle();
             }
         });
     }
 
     public static void main(String[] args) {
         new GUI();
+    }
+
+    private void nextCycle() {
+        grid.nextCycle();
+
+        counter.setText("Cycles: " + grid.getCycles());
     }
 }
