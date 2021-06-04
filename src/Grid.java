@@ -61,27 +61,23 @@ public class Grid extends JPanel {
 					return;
 				}
 
-				// if (selectedPanel != null) {
-				// selectedPanel.setBackground(originalColor);
-				// selectedPanel.removeAll();
-				// selectedPanel.revalidate();
-				// selectedPanel.repaint();
-				// }
-
-				JPanel selectedPanel = panel;
-				String name = selectedPanel.getName();
+				String name = panel.getName();
 				int row = Integer.parseInt(String.valueOf(name.charAt(1)));
 				int col = Integer.parseInt(String.valueOf(name.charAt(3)));
 
 				setCellAt(row, col);
 
-				selectedPanel.setBackground(Color.WHITE);
+				if (panel.getBackground().equals(Color.BLACK)) {
+					panel.setBackground(Color.WHITE);
+				} else {
+					panel.setBackground(Color.BLACK);
+				}
 
 				// selectedPanel.add(new JLabel(name));
 				// selectedPanel.add(new JLabel(String.format("[%d,%d]", row, col)));
 
-				selectedPanel.revalidate();
-				selectedPanel.repaint();
+				panel.revalidate();
+				panel.repaint();
 			}
 		});
 
