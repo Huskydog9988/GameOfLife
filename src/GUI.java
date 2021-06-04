@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class GUI extends JFrame {
 
 
+//    why does java lack state management??
+//    this project would have taken a quarter of the time, and way less stress
+
     public GUI() {
         // set the title
         super("Conway's Game of Life");
