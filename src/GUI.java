@@ -17,6 +17,7 @@ public class GUI extends JFrame {
     private Grid grid = new Grid();
     private JPanel config = new JPanel();
     private JLabel counter = new JLabel("Cycles: 0");
+    private int cycleSpeed = 120;
 
 //    why does java lack state management??
 //    this project would have taken a quarter of the time, and way less stress
@@ -68,11 +69,18 @@ public class GUI extends JFrame {
         JPanel settingsPS = new JPanel();
         JButton playStop = new JButton("Play");
         JButton step = new JButton("Step");
+        JLabel speedLabel = new JLabel("Speed: " + cycleSpeed);
         JSlider speed = new JSlider();
+        speed.setMaximum(500);
+        speed.setMinimum(50);
+        speed.setValue(cycleSpeed);
         JTextField underPop = new JTextField(1);
         underPop.setBounds(160, 7, 50, 20);
+        underPop.setText("" + grid.getUnderpopulation());
         JTextField overPop = new JTextField(1);
         overPop.setBounds(450, 7, 50, 20);
+        overPop.setText("" + grid.getOverpopulation());
+        JButton setSettings = new JButton("Set Settings");
 //        JLabel stateManagement = new JLabel("Why oh why god of the heavenly above does this wretched program not have state management??");
 
         intro.setText("");
@@ -83,6 +91,7 @@ public class GUI extends JFrame {
 //        config.add(stateManagement);
         settings.setLayout(new GridLayout(4, 1));
         settings.add(sliderText);
+        settings.add(speedLabel);
         settings.add(speed);
         settings.add(settingsLD);
         settings.add(settingsPS);
@@ -93,8 +102,20 @@ public class GUI extends JFrame {
         settingsLD.add(underPopulation);
         settingsLD.add(overPopulation);
 
+        settingsPS.add(setSettings);
         settingsPS.add(playStop);
         settingsPS.add(step);
+
+        setSettings.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                grid.setUnderpopulation(Integer.parseInt(underPop.getText()));
+                grid.setOverpopulation(Integer.parseInt(overPop.getText()));
+
+                cycleSpeed = speed.getValue();
+                speedLabel.setText("Speed: " + cycleSpeed);
+            }
+        });
 
         playStop.addActionListener(new ActionListener() {
             private int clicked = 0;
@@ -119,7 +140,7 @@ public class GUI extends JFrame {
 
 //                    timer.scheduleAtFixedRate(cycleTask, 1, 100);
 
-                    future = scheduledExecutorService.scheduleAtFixedRate(() -> nextCycle(), 1, 120, TimeUnit.MILLISECONDS);
+                    future = scheduledExecutorService.scheduleAtFixedRate(() -> nextCycle(), 1, cycleSpeed, TimeUnit.MILLISECONDS);
 
                 }
                 else if(clicked == 1)
