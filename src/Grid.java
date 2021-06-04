@@ -9,7 +9,7 @@ public class Grid extends JPanel {
 	private static final int width = 60;
 	private static final Dimension size = new Dimension(width, width);
 	// private JPanel selectedPanel = null;
-	private boolean[][] board;
+	private boolean[][] board = new boolean[rowCount][rowCount];
 	private int underpopulation = 2;
 	private int overpopulation = 3;
 	private int reproduction = 3;
