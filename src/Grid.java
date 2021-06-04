@@ -2,10 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-//import java.util.ArrayList;
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
-
 public class Grid extends JPanel {
 	private static final int rowCount = 30;
 	private static final int width = 60;
@@ -16,8 +12,6 @@ public class Grid extends JPanel {
 	private int overpopulation = 3;
 	private int reproduction = 3;
 	private int cycles = 0;
-
-	// TODO: need to handle board being changed
 
 	Grid() {
 		// make grid layout
