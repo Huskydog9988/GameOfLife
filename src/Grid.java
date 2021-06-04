@@ -67,7 +67,7 @@ public class Grid extends JPanel {
 	private void repaintBoard() {
 		Logger.info("Repainting the board");
 		removeAll();
-
+		revalidate();
 		paintBoard();
 	}
 
@@ -101,6 +101,7 @@ public class Grid extends JPanel {
 			panel.setPreferredSize(size);
 			add(panel);
 		}
+		revalidate();
 	}
 
 	public boolean getCellAt(int row, int col) {
