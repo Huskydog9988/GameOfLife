@@ -24,6 +24,10 @@ public class Board {
      */
     Board(int rows, int cols) {
         board = new boolean[rows][cols];
+
+//        board[0][0] = true;
+//		board[3][0] = true;
+//		board[2][4] = true;
     }
 
     /**

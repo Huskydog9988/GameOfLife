@@ -5,85 +5,84 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class Grid extends JPanel{
-    private final int ROWS = 29;
-    private final int COLS = 29;
-    private Board gameboard = new Board(ROWS, COLS);
-    private ArrayList<Cell> cells = new ArrayList<>();
-    private static final int W = 60;
-    private static final int H = W;
-    private static final Dimension PREF_SIZE = new Dimension(W, H);
-    private Color originalColor = null;
-    private JPanel selectedPanel = null;
-    protected static final Color SELECTION_COLOR = Color.pink;
+    private static final int rowCount = 10;
+    private static final int width = 60;
+    private static final Dimension size = new Dimension(width, width);
+//    private JPanel selectedPanel = null;
+    private Color originalColor = Color.WHITE;
+    private Board gameboard = new Board(rowCount, rowCount);
 
+//    TODO: need to handle board being changed
+    
     Grid() {
-        setLayout(new GridLayout(ROWS, COLS, 1, 1));
+//        make grid layout
+        setLayout(new GridLayout(rowCount, rowCount, 1, 1));
+//        make boarder white
+        setBackground(Color.WHITE);
 
-        // loop through board
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
+        for (int i = 0; i < rowCount * rowCount; i++) {
+            JPanel panel = new JPanel();
 
-                Cell cell = new Cell(i, j);
+            int row = i / rowCount;
+            int col = i % rowCount;
 
-//                String name = String.format("[%d, %d]", i, j);
-//                cell.setName(name);
+//            set name for later parsing
+            String name = String.format("[%d,%d]", row, col);
+            panel.setName(name);
 
-//                if (i == 0) {
-//                    originalColor = cell.getBackground();
-//                }
+//            if (i == 0) {
+//                originalColor = panel.getBackground();
+//            }
 
-//                cell.setBackground(Color.BLUE);
-//                cell.setPreferredSize(PREF_SIZE);
-//                add(cell);
-                cells.add(cell);
+//            get whether cell is alive or dead
+            Boolean alive = gameboard.getCellAt(row, col);
+
+            if (alive) {
+                panel.setBackground(Color.WHITE);
+            } else {
+                panel.setBackground(Color.BLACK);
             }
+
+//            set size
+            panel.setPreferredSize(size);
+            add(panel);
         }
 
-        setBackground(Color.BLACK);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+//                get panel where mouse clicks
+//                e.getComponent() does not work, no idea why
+                JPanel panel = (JPanel) getComponentAt(e.getPoint());
+//                if null, grid, or other component
+                if (panel == null || panel == Grid.this || panel == getParent()) {
+                    return;
+                }
 
-//        addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-////                Cell panel = (Cell) getComponentAt(e.getPoint());
-//                Component panel = getComponentAt(e.getPoint());
-//
-//                System.out.println(e.getPoint());
-//                System.out.println(panel.getName());
-//
-////                getComponentAt(e.getPoint());
-//
-//                if (panel == null || panel.equals(Grid.this)) {
-//                    return;
-//                }
 //                if (selectedPanel != null) {
 //                    selectedPanel.setBackground(originalColor);
 //                    selectedPanel.removeAll();
 //                    selectedPanel.revalidate();
 //                    selectedPanel.repaint();
 //                }
-////                selectedPanel = panel;
-////                assert selectedPanel != null;
-//                selectedPanel.setBackground(SELECTION_COLOR);
-//                selectedPanel.add(new JLabel(selectedPanel.getName()));
-//                selectedPanel.revalidate();
-//                selectedPanel.repaint();
-//            }
-//        });
-    }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent( g );
+                JPanel selectedPanel = panel;
 
-//        g.setColor(Color.WHITE);
-//        g.fillRect(0, 0, 200, 200);
+                String name = selectedPanel.getName();
+                int row = Integer.parseInt(String.valueOf(name.charAt(1)));
+                int col = Integer.parseInt(String.valueOf(name.charAt(3)));
 
-//        can do cell checking here
+                gameboard.setCellAt(row, col);
 
-        // paint the grid
-        for( Rectangle r : cells ) {
+                selectedPanel.setBackground(Color.WHITE);
 
-            g.setColor(Color.WHITE);
-            g.drawRect( r.x, r.y, r.width, r.height );
-        }
+//                selectedPanel.add(new JLabel(name));
+//                selectedPanel.add(new JLabel(String.format("[%d,%d]", row, col)));
+
+                selectedPanel.revalidate();
+                selectedPanel.repaint();
+            }
+        });
+
     }
 }
