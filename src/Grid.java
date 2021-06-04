@@ -7,13 +7,16 @@ import java.util.ArrayList;
 public class Grid extends JPanel{
     private final int ROWS = 29;
     private final int COLS = 29;
-    private Board gameboard = new Board(ROWS, COLS);
     private ArrayList<Cell> cells = new ArrayList<>();
     private static final int W = 60;
     private static final int H = W;
     private static final Dimension PREF_SIZE = new Dimension(W, H);
     private Color originalColor = null;
     private JPanel selectedPanel = null;
+    private boolean[][] board;
+    private int underpopulation = 2;
+    private int overpopulation = 3;
+    private int reproduction = 3;
     protected static final Color SELECTION_COLOR = Color.pink;
 
     Grid() {
@@ -25,65 +28,202 @@ public class Grid extends JPanel{
 
                 Cell cell = new Cell(i, j);
 
-//                String name = String.format("[%d, %d]", i, j);
-//                cell.setName(name);
 
-//                if (i == 0) {
-//                    originalColor = cell.getBackground();
-//                }
-
-//                cell.setBackground(Color.BLUE);
-//                cell.setPreferredSize(PREF_SIZE);
-//                add(cell);
                 cells.add(cell);
             }
         }
 
         setBackground(Color.BLACK);
 
-//        addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-////                Cell panel = (Cell) getComponentAt(e.getPoint());
-//                Component panel = getComponentAt(e.getPoint());
-//
-//                System.out.println(e.getPoint());
-//                System.out.println(panel.getName());
-//
-////                getComponentAt(e.getPoint());
-//
-//                if (panel == null || panel.equals(Grid.this)) {
-//                    return;
-//                }
-//                if (selectedPanel != null) {
-//                    selectedPanel.setBackground(originalColor);
-//                    selectedPanel.removeAll();
-//                    selectedPanel.revalidate();
-//                    selectedPanel.repaint();
-//                }
-////                selectedPanel = panel;
-////                assert selectedPanel != null;
-//                selectedPanel.setBackground(SELECTION_COLOR);
-//                selectedPanel.add(new JLabel(selectedPanel.getName()));
-//                selectedPanel.revalidate();
-//                selectedPanel.repaint();
-//            }
-//        });
+
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent( g );
 
-//        g.setColor(Color.WHITE);
-//        g.fillRect(0, 0, 200, 200);
-
-//        can do cell checking here
-
-        // paint the grid
         for( Rectangle r : cells ) {
 
             g.setColor(Color.WHITE);
             g.drawRect( r.x, r.y, r.width, r.height );
         }
+    }
+    
+    public boolean getCellAt(int row, int col) {
+        return board[row][col];
+    }
+    public void setCellAt(int row, int col) {
+        board[row][col] = !board[row][col];
+    }
+    public int getUnderpopulation() {
+        return underpopulation;
+    }
+    public void setUnderpopulation(int value) {
+        underpopulation = value;
+    }
+    public int getOverpopulation() {
+        return overpopulation;
+    }
+    public void setOverpopulation(int value) {
+        overpopulation = value;
+    }
+    public int getReproduction() {
+        return reproduction;
+    }
+    public void setReproduction(int value) {
+        reproduction = value;
+    }
+    public boolean[][] getBoard() {
+        return board;
+    }
+    public void nextCycle() 
+    {
+    	boolean[][] newBoard = new boolean[board.length][board[0].length];
+    	for(int i = 0; i < board.length; i++)
+    	{
+    		for(int j = 0; j < board[0].length; j++)
+    		{
+//    			if dead
+    			if(!board[i][j])
+    			{
+    				if(numAround(i, j) == reproduction)
+    					newBoard[i][j] = !board[i][j];
+    			}
+    			else
+    			{
+    				if(numAround(i, j) < underpopulation)
+    					newBoard[i][j] = !board[i][j];
+    				else if(numAround(i, j) > overpopulation)
+    					newBoard[i][j] = !board[i][j];
+    				else
+    					newBoard[i][j] = board[i][j];
+    			}
+    		}
+    	}
+    	board = newBoard;
+    }
+    public int numAround(int row, int col)
+    {
+    	int count = 0;
+    	if(row==0)
+    	{
+    		if(col == 0)
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    		}
+    		else if(col == board[0].length-1)
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    		else
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    			if(board[row+1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    	}
+    	else if(row == board.length-1)
+    	{
+    		if(col == 0)
+    		{
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    		}
+    		else if(col == board[0].length-1)
+    		{
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    		else
+    		{
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    			if(board[row-1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    	}
+    	else
+    	{
+    		if(col == 0)
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    		}
+    		else if(col == board[0].length-1)
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    		}
+    		else
+    		{
+    			if(board[row+1][col])
+    				count++;
+    			if(board[row+1][col+1])
+    				count++;
+    			if(board[row][col+1])
+    				count++;
+    			if(board[row+1][col-1])
+    				count++;
+    			if(board[row][col-1])
+    				count++;
+    			if(board[row-1][col])
+    				count++;
+    			if(board[row-1][col+1])
+    				count++;
+    			if(board[row-1][col-1])
+    				count++;
+    		}
+    	}
+    	return count;
     }
 }

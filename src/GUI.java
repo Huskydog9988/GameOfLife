@@ -7,24 +7,25 @@ import java.util.ArrayList;
 public class GUI extends JFrame {
 
 
-    GUI() {
+    public GUI() {
         // set the title
         super("Conway's Game of Life");
 
         // set bounds
-        setBounds(100,100,800,600);
+        setBounds(100,100,1200,600);
         // disable resize
         setResizable(true);
         // make background black
 //        setBackground(Color.BLACK);
-
+        setLayout(new GridLayout(0, 2));
         Grid grid = new Grid();
         // add grid
         add(grid);
 //        this.pack();
-
 //        setBackground(Color.BLACK);
-
+        Configuration config = new Configuration(grid);
+        add(config);
+        
         // show window
         setVisible(true);
         // allow for closing
