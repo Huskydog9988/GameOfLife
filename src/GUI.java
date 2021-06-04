@@ -119,7 +119,7 @@ public class GUI extends JFrame {
 
 //                    timer.scheduleAtFixedRate(cycleTask, 1, 100);
 
-                    future = scheduledExecutorService.scheduleAtFixedRate(() -> nextCycle(), 1, 100, TimeUnit.MILLISECONDS);
+                    future = scheduledExecutorService.scheduleAtFixedRate(() -> nextCycle(), 1, 120, TimeUnit.MILLISECONDS);
 
                 }
                 else if(clicked == 1)

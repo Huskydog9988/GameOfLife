@@ -3,9 +3,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Grid extends JPanel {
-	private static final int rowCount = 10;
+	private static final int rowCount = 30;
 	private static final int width = 60;
 	private static final Dimension size = new Dimension(width, width);
 	// private JPanel selectedPanel = null;
@@ -40,10 +42,14 @@ public class Grid extends JPanel {
 
 				String name = panel.getName();
 				Logger.debug("Got cell " + name);
-				int row = Integer.parseInt(String.valueOf(name.charAt(1)));
-				int col = Integer.parseInt(String.valueOf(name.charAt(3)));
+//				int row = Integer.parseInt(String.valueOf(name.charAt(1)));
+//				int col = Integer.parseInt(String.valueOf(name.charAt(3)));
 
-				setCellAt(row, col);
+//				0 = row
+//				1 = col
+				int[] cords = parseName(name);
+
+				setCellAt(cords[0], cords[1]);
 
 				if (panel.getBackground().equals(Color.BLACK)) {
 					panel.setBackground(Color.WHITE);
@@ -62,7 +68,7 @@ public class Grid extends JPanel {
 	}
 
 	public String formatCord(int row, int col) {
-		return String.format("[%d,%d]", row, col);
+		return String.format("%d,%d", row, col);
 	}
 
 	private void repaintBoard() {
@@ -103,6 +109,16 @@ public class Grid extends JPanel {
 			add(panel);
 		}
 		revalidate();
+	}
+
+	public int[] parseName(String name) {
+		int[] cords = new int[2];
+
+		String[] s = name.split(",");
+		cords[0] = Integer.parseInt(s[0]);
+		cords[1] = Integer.parseInt(s[1]);
+
+		return cords;
 	}
 
 	public boolean getCellAt(int row, int col) {
