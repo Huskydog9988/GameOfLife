@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+//import java.util.ArrayList;
+//import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
 
 public class Grid extends JPanel {
 	private static final int rowCount = 30;
