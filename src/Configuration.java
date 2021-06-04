@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.*;
 public class Configuration extends JPanel
@@ -51,12 +52,14 @@ public class Configuration extends JPanel
 			public void actionPerformed(ActionEvent e) {
 				if(clicked == 0) 
 				{
+					Logger.info("Playing..");
 					playStop.setText("Stop");
 					step.setEnabled(false);
 					clicked++;
 				}
 				else if(clicked == 1)
 				{
+					Logger.info("Stopping..");
 					playStop.setText("Play");
 					step.setEnabled(true);
 					clicked--;
@@ -65,5 +68,15 @@ public class Configuration extends JPanel
 			}
         	
         });
+
+		step.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Logger.info("Step");
+
+//				getGrid().;
+//				GUI.this.getBoard()
+			}
+		});
 	}
 }

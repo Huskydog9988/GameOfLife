@@ -22,6 +22,8 @@ public class Grid extends JPanel {
 		// make boarder white
 		setBackground(Color.WHITE);
 
+		setName("Board");
+
 		paintBoard();
 
 		addMouseListener(new MouseAdapter() {
@@ -139,6 +141,8 @@ public class Grid extends JPanel {
 	}
 
 	public void nextCycle() {
+		Logger.info("Next cycle");
+
 		boolean[][] newBoard = new boolean[board.length][board[0].length];
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[0].length; j++) {
