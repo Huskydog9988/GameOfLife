@@ -73,14 +73,14 @@ public class GUI extends JFrame {
         underPop.setBounds(160, 7, 50, 20);
         JTextField overPop = new JTextField(1);
         overPop.setBounds(450, 7, 50, 20);
-        JLabel stateManagement = new JLabel("Why oh why god of the heavenly above does this wretched program not have state management??");
+//        JLabel stateManagement = new JLabel("Why oh why god of the heavenly above does this wretched program not have state management??");
 
         intro.setText("");
         sliderText.setLabelFor(speed);
         config.add(counter);
         config.add(intro);
         config.add(settings);
-        config.add(stateManagement);
+//        config.add(stateManagement);
         settings.setLayout(new GridLayout(4, 1));
         settings.add(sliderText);
         settings.add(speed);
@@ -155,6 +155,8 @@ public class GUI extends JFrame {
     }
 
     private void nextCycle() {
+        Logger.info("Auto playing next cycle");
+
         grid.nextCycle();
 
         counter.setText("Cycles: " + grid.getCycles());
